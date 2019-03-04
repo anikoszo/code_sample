@@ -1,1 +1,5 @@
 /Users/akoszo/PycharmProjects/codes/venv
+ .idea/
+        count_analysis/defs/__pycache__/
+        count_analysis/test_db.sqlite
+        venv/

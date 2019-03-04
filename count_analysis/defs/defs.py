@@ -16,16 +16,36 @@ def sqlite_connect(name):
 
 
 def write_to_db(df, table_name, conn):
+    """
+
+    :param df: dataframe which to write to a database
+    :param table_name: name the dataframe in database
+    :param conn: database connection
+    :return: create new table in particular database
+    """
     df.to_sql(table_name, conn, if_exists='replace')
 
 
 def aggregate_by_column(column, data_frame, measure):
+    """
+    aggregate values by groupby function,apply it in the main columns
+    :param column: from amain columns list
+    :param data_frame:
+    :param measure: aggregregation by
+    :return:
+    """
     return data_frame.groupby(by=column)[
         measure].sum().reset_index().rename(
         columns={column: 'Analysis'})
 
 
 def combine_cols(df, i):
+    """
+    concat two columns
+    :param df: dataframe on apply
+    :param i:
+    :return:
+    """
     df['Analysis'] = df[i].astype(
         str).apply(
         lambda x: ' - '.join(x),
@@ -33,6 +53,12 @@ def combine_cols(df, i):
 
 
 def to_crosstab(category, df, measure):
+    """
+    :param category: comes from the autom_analyse func category_col variables
+    :param df: dataframe to use
+    :param measure: the measure column
+    :return: crosstab in a correct format for the further transofrmation
+    """
     return pd.crosstab(columns=[df[x] for x in category],
                        index=df[category[0]],
                        aggfunc=np.sum,
@@ -42,7 +68,15 @@ def to_crosstab(category, df, measure):
 
 
 def autom_analyse(df, category_cols, measure, dependencies=None):
-    """combined analysis for main cols"""
+    """
+    combined analysis for main cols
+
+    :param df: dataframe on apply
+    :param category_cols: category columns to involve the analysis
+    :param measure: the measure column
+    :param dependencies: additional columns to analyse
+    :return: analysis in dataframe
+    """
     categories = []
     for col in category_cols:
         if df[col].dtype == 'object':

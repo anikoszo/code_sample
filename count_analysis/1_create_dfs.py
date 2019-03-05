@@ -1,4 +1,3 @@
-import pandas as pd
 import datetime
 from count_analysis.defs.defs import *
 
